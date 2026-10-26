@@ -3,181 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VYBE — Social</title>
+<title>VYBE</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#f7f7fb;--card:#fff;--text:#17171c;--muted:#777783;--line:#e9e9ef;--accent:#7c5cff;--accent2:#ff5ca8}
-body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
-button,input,textarea{font:inherit}
-button{cursor:pointer;border:0}
-.app{min-height:100vh}
-.topbar{height:68px;background:rgba(255,255,255,.92);backdrop-filter:blur(15px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20}
-.logo{font-size:26px;font-weight:900;letter-spacing:-1.5px;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;color:transparent}
-.search{width:min(360px,40vw);background:#f1f1f6;border:1px solid transparent;border-radius:18px;padding:10px 15px;outline:none}
-.search:focus{border-color:#cfc7ff}
-.top-actions{display:flex;gap:10px;align-items:center}
-.icon-btn{width:40px;height:40px;border-radius:50%;background:#f1f1f6;font-size:18px}
-.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#ffb4d7,#a997ff);font-weight:800}
-.layout{max-width:1200px;margin:auto;display:grid;grid-template-columns:210px minmax(0,620px) 280px;gap:28px;padding:28px 20px}
-.sidebar{position:sticky;top:95px;height:max-content}
-.nav{display:grid;gap:7px}
-.nav button{padding:13px 15px;border-radius:14px;background:transparent;text-align:left;font-weight:700;color:#5d5d68}
-.nav button.active,.nav button:hover{background:#eeeaff;color:var(--accent)}
-.create-side{margin-top:18px;width:100%;padding:13px;border-radius:14px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;font-weight:800}
-.page{display:none}.page.active{display:block}
-.page-title{font-size:26px;font-weight:900;margin:4px 0 18px}
-.feed-tabs{display:flex;gap:8px;margin-bottom:14px}
-.feed-tabs button{background:transparent;padding:9px 14px;border-radius:12px;font-weight:800;color:var(--muted)}
-.feed-tabs button.active{background:#ece8ff;color:var(--accent)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;margin-bottom:15px;box-shadow:0 4px 18px rgba(30,20,70,.04)}
-.post{padding:18px}
-.post-head{display:flex;align-items:center;gap:11px}
-.post-head .avatar{width:42px;height:42px}
-.user-info{flex:1}.username{font-weight:850}.handle{font-size:12px;color:var(--muted)}
-.more{background:transparent;font-size:20px;color:var(--muted)}
-.post-text{font-size:15px;line-height:1.5;margin:14px 0}
-.post-img{height:300px;border-radius:16px;background:linear-gradient(135deg,#d9d0ff,#ffd4e7 55%,#fff0b9);display:grid;place-items:center;font-size:70px;margin-bottom:13px}
-.actions{display:flex;gap:7px;border-top:1px solid var(--line);padding-top:12px}
-.action{background:transparent;padding:8px 10px;border-radius:11px;color:#656570;font-weight:700}
-.action:hover{background:#f3f2f7}.liked{color:#f04e91}
-.composer{padding:16px;display:flex;gap:12px}
-.composer textarea{flex:1;border:0;resize:none;outline:0;background:#f4f4f8;border-radius:15px;padding:12px;min-height:48px}
-.post-btn{background:var(--accent);color:#fff;padding:10px 16px;border-radius:13px;font-weight:800;align-self:end}
-.right-card{padding:18px}.right-title{font-weight:900;margin-bottom:13px}
-.trend{padding:10px 0;border-bottom:1px solid var(--line)}.trend:last-child{border:0}
-.trend small{color:var(--muted)}.trend b{display:block;margin:3px 0}
-.profile{padding:0 0 20px}.cover{height:150px;background:linear-gradient(120deg,#7960ff,#ff64a9);border-radius:20px 20px 0 0}
-.profile-main{padding:0 22px}.profile-avatar{width:92px;height:92px;border:5px solid #fff;border-radius:50%;background:linear-gradient(135deg,#ffb4d7,#a997ff);display:grid;place-items:center;font-size:30px;font-weight:900;margin-top:-45px}
-.profile-row{display:flex;justify-content:space-between;align-items:end}.follow{background:var(--text);color:#fff;padding:10px 18px;border-radius:12px;font-weight:800}
-.stats{display:flex;gap:28px;margin-top:16px}.stats b{display:block}.stats span{font-size:12px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:20px}.grid div{aspect-ratio:1;background:linear-gradient(135deg,#d9d0ff,#ffd4e7);border-radius:10px;display:grid;place-items:center;font-size:30px}
-.notification{padding:16px;display:flex;gap:12px;align-items:center}.notification+.notification{border-top:1px solid var(--line)}
-.modal-wrap{display:none;position:fixed;inset:0;background:rgba(20,15,35,.45);z-index:50;place-items:center;padding:20px}.modal-wrap.show{display:grid}.modal{width:min(500px,100%);background:#fff;border-radius:22px;padding:22px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.close{background:#f1f1f6;border-radius:50%;width:34px;height:34px}.modal textarea{width:100%;min-height:130px;border:1px solid var(--line);border-radius:15px;padding:14px;resize:vertical;outline:none}.modal-footer{display:flex;justify-content:flex-end;margin-top:12px}
-.empty{padding:40px;text-align:center;color:var(--muted)}
-@media(max-width:950px){.layout{grid-template-columns:75px minmax(0,620px)}.sidebar .label,.create-side span{display:none}.sidebar{position:sticky}.nav button{text-align:center;font-size:22px;padding:12px}.create-side{font-size:22px}.rightbar{display:none}}
-@media(max-width:650px){.topbar{padding:0 12px}.search{display:none}.layout{display:block;padding:15px 10px 80px}.sidebar{position:fixed;bottom:0;left:0;right:0;top:auto;height:62px;background:#fff;border-top:1px solid var(--line);z-index:30}.nav{display:flex;justify-content:space-around}.nav button{flex:1;text-align:center;border-radius:10px}.create-side{display:none}.nav button:nth-child(3){color:var(--accent)}.rightbar{display:none}.post-img{height:230px}.topbar{height:60px}}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fff;color:#111}button,input{font:inherit}button{cursor:pointer;border:0;background:none}.top{height:62px;border-bottom:1px solid #ddd;display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;background:#fff;z-index:20}.logo{font-size:27px;font-weight:900;letter-spacing:-1.5px}.search{width:270px;background:#f1f1f1;border:0;border-radius:10px;padding:10px 15px}.topicons{display:flex;gap:18px;font-size:23px;align-items:center}.layout{display:grid;grid-template-columns:220px 1fr 300px;max-width:1250px;margin:auto}.side{height:calc(100vh - 62px);position:sticky;top:62px;border-right:1px solid #eee;padding:22px 12px}.navbtn{width:100%;text-align:left;padding:14px 16px;border-radius:10px;font-size:16px;margin-bottom:4px}.navbtn:hover,.navbtn.active{background:#f2f2f2;font-weight:bold}.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ff77b7,#765cff);display:grid;place-items:center;color:#fff;font-weight:bold;flex:none}main{max-width:650px;width:100%;margin:auto;padding:25px}.page{display:none}.page.active{display:block}.stories{display:flex;gap:17px;overflow:auto;padding:3px 2px 18px}.story{text-align:center;font-size:12px;min-width:62px}.story .avatar{width:60px;height:60px;border:3px solid #ff4e91;padding:2px;background-clip:padding-box;margin:auto auto 5px}.story.me .avatar{border-color:#bbb}.post{border-bottom:1px solid #ddd;padding-bottom:20px;margin-bottom:24px}.posthead{display:flex;align-items:center;gap:10px;margin-bottom:12px}.user{font-weight:bold}.time{color:#777;font-size:12px}.dots{margin-left:auto;font-size:20px}.media{height:470px;border-radius:4px;background:linear-gradient(135deg,#c9c0ff,#ffb8da,#ffe3a1);display:grid;place-items:center;font-size:100px;position:relative;overflow:hidden}.media.video{background:linear-gradient(150deg,#171717,#50456f 50%,#ff6eaa);color:#fff}.play{position:absolute;font-size:60px;text-shadow:0 2px 12px #000}.actions{display:flex;gap:18px;padding:10px 0 5px}.actions button{font-size:24px}.actions .save{margin-left:auto}.liked{color:#ed3f74}.caption{line-height:1.45}.comments{color:#777;font-size:14px;margin-top:7px}.side-right{padding:28px 18px}.suggest{display:flex;align-items:center;gap:10px;margin:14px 0}.suggest .info{flex:1}.follow{color:#287be8;font-weight:bold}.reel{height:calc(100vh - 110px);max-height:760px;background:#222;color:#fff;border-radius:10px;position:relative;overflow:hidden;margin-bottom:20px}.reel-bg{height:100%;display:grid;place-items:center;font-size:120px;background:linear-gradient(140deg,#191919,#664e87,#e95f9e)}.reel-info{position:absolute;bottom:20px;left:18px;right:75px;text-shadow:0 1px 5px #000}.reel-actions{position:absolute;right:14px;bottom:20px;display:grid;gap:20px;text-align:center;font-size:24px}.reel-actions small{display:block;font-size:11px}.profile-cover{height:180px;border-radius:12px;background:linear-gradient(120deg,#765cff,#ff5c9f)}.profile-head{display:flex;align-items:end;gap:15px;margin-top:-45px;padding:0 18px}.profile-big{width:90px;height:90px;border:5px solid #fff;font-size:30px}.edit{margin-left:auto;border:1px solid #bbb;border-radius:8px;padding:9px 16px;font-weight:bold}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:25px}.grid div{aspect-ratio:1;background:linear-gradient(135deg,#ddd0ff,#ffd2e4);display:grid;place-items:center;font-size:35px}@media(max-width:1000px){.layout{grid-template-columns:80px 1fr}.side-right{display:none}.navbtn{font-size:22px;text-align:center}.navbtn span{display:none}}@media(max-width:650px){.top{padding:0 12px}.search{display:none}.layout{display:block}.side{position:fixed;bottom:0;top:auto;left:0;right:0;height:58px;background:#fff;border-top:1px solid #ddd;border-right:0;padding:5px;z-index:30}.nav{display:flex;justify-content:space-around}.navbtn{width:auto;margin:0;padding:10px;font-size:22px}.navbtn span{display:none}main{padding:10px 8px 75px}.media{height:430px}.stories{padding-left:4px}.logo{font-size:24px}}
 </style>
 </head>
 <body>
-<div class="app">
-<header class="topbar">
-  <div class="logo">VYBE</div>
-  <input id="search" class="search" placeholder="Search VYBE..." oninput="searchPosts(this.value)">
-  <div class="top-actions"><button class="icon-btn" onclick="showPage('notifications')">🔔</button><div class="avatar">M</div></div>
-</header>
-
-<div class="layout">
-<aside class="sidebar">
-  <nav class="nav">
-    <button class="active" data-page="home" onclick="showPage('home')">🏠 <span class="label">Home</span></button>
-    <button data-page="explore" onclick="showPage('explore')">🔥 <span class="label">Explore</span></button>
-    <button onclick="openComposer()">➕ <span class="label">Create</span></button>
-    <button data-page="notifications" onclick="showPage('notifications')">❤️ <span class="label">Activity</span></button>
-    <button data-page="profile" onclick="showPage('profile')">👤 <span class="label">Profile</span></button>
-  </nav>
-  <button class="create-side" onclick="openComposer()">＋ <span>Create Post</span></button>
-</aside>
-
+<header class="top"><div class="logo">VYBE</div><input class="search" placeholder="Search" oninput="search(this.value)"><div class="topicons"><button onclick="show('notifications')">♡</button><button onclick="alert('DMs are coming next 💌')">✉</button><div class="avatar">M</div></div></header>
+<div class="layout"><aside class="side"><nav class="nav"><button class="navbtn active" data-p="home" onclick="show('home')">⌂ <span>Home</span></button><button class="navbtn" data-p="explore" onclick="show('explore')">⌕ <span>Explore</span></button><button class="navbtn" data-p="reels" onclick="show('reels')">▶ <span>VYBES</span></button><button class="navbtn" onclick="createPost()">＋ <span>Create</span></button><button class="navbtn" data-p="notifications" onclick="show('notifications')">♡ <span>Notifications</span></button><button class="navbtn" data-p="profile" onclick="show('profile')">◉ <span>Profile</span></button></nav></aside>
 <main>
-<section id="home" class="page active">
-  <div class="page-title">Home</div>
-  <div class="feed-tabs"><button class="active">For You</button><button>Following</button></div>
-  <div class="card composer">
-    <div class="avatar">M</div>
-    <textarea id="quickText" placeholder="What's your vibe today?"></textarea>
-    <button class="post-btn" onclick="quickPost()">Post</button>
-  </div>
-  <div id="feed"></div>
-</section>
-
-<section id="explore" class="page">
-  <div class="page-title">🔥 Explore</div>
-  <div class="card right-card">
-    <div class="right-title">Trending right now</div>
-    <div class="trend"><small>1 · TRENDING</small><b>#weekendvibes</b><small>12.4K posts</small></div>
-    <div class="trend"><small>2 · TRENDING</small><b>#fallfits</b><small>8.9K posts</small></div>
-    <div class="trend"><small>3 · TRENDING</small><b>#schoollife</b><small>6.2K posts</small></div>
-    <div class="trend"><small>4 · TRENDING</small><b>#cozyseason</b><small>4.8K posts</small></div>
-  </div>
-  <div id="exploreFeed"></div>
-</section>
-
-<section id="notifications" class="page">
-  <div class="page-title">Activity</div>
-  <div class="card">
-    <div class="notification"><div class="avatar">J</div><div><b>jayla</b> liked your post<br><small>2 min ago</small></div></div>
-    <div class="notification"><div class="avatar">A</div><div><b>aria</b> started following you<br><small>18 min ago</small></div></div>
-    <div class="notification"><div class="avatar">K</div><div><b>kai</b> commented on your post<br><small>1 hr ago</small></div></div>
-  </div>
-</section>
-
-<section id="profile" class="page">
-  <div class="card profile">
-    <div class="cover"></div>
-    <div class="profile-main">
-      <div class="profile-row"><div class="profile-avatar">M</div><button class="follow" onclick="toggleFollow(this)">Edit profile</button></div>
-      <h2 style="margin-top:10px">Maya</h2><div class="handle">@maya.vybe</div>
-      <p style="margin-top:10px;line-height:1.45">just here for the good vibes ✨<br>🍪 building things & causing chaos</p>
-      <div class="stats"><div><b id="followers">248</b><span>Followers</span></div><div><b>183</b><span>Following</span></div><div><b id="postCount">3</b><span>Posts</span></div></div>
-      <div class="grid"><div>🍪</div><div>✨</div><div>🌸</div><div>🎀</div><div>📸</div><div>☁️</div></div>
-    </div>
-  </div>
-</section>
-</main>
-
-<aside class="rightbar">
-  <div class="card right-card">
-    <div class="right-title">Who to follow</div>
-    <div class="trend"><b>jayla</b><small>@jayla.jpg</small><button class="follow" style="float:right;padding:7px 11px" onclick="toggleFollow(this)">Follow</button></div>
-    <div class="trend"><b>aria</b><small>@aria.mp4</small><button class="follow" style="float:right;padding:7px 11px" onclick="toggleFollow(this)">Follow</button></div>
-    <div class="trend"><b>kai</b><small>@kai.wav</small><button class="follow" style="float:right;padding:7px 11px" onclick="toggleFollow(this)">Follow</button></div>
-  </div>
-</aside>
-</div>
-</div>
-
-<div id="modalWrap" class="modal-wrap">
- <div class="modal">
-  <div class="modal-head"><h2>Create a post</h2><button class="close" onclick="closeComposer()">✕</button></div>
-  <textarea id="postText" placeholder="What's happening?"></textarea>
-  <div class="modal-footer"><button class="post-btn" onclick="createPost()">Post</button></div>
- </div>
-</div>
-
+<section id="home" class="page active"><div class="stories"><div class="story me"><div class="avatar">M</div>You</div><div class="story"><div class="avatar">J</div>jayla</div><div class="story"><div class="avatar">A</div>aria</div><div class="story"><div class="avatar">K</div>kai</div><div class="story"><div class="avatar">S</div>soph</div><div class="story"><div class="avatar">D</div>dani</div></div><div id="feed"></div></section>
+<section id="explore" class="page"><h2>Explore</h2><div id="exploreFeed"></div></section>
+<section id="reels" class="page"><h2>VYBES</h2><div id="reelsFeed"></div></section>
+<section id="notifications" class="page"><h2>Notifications</h2><div class="post"><b>jayla</b> liked your post ❤️<br><small>2 minutes ago</small></div><div class="post"><b>aria</b> started following you ✨<br><small>18 minutes ago</small></div><div class="post"><b>kai</b> commented: "WAIT THIS IS SO GOOD"</div></section>
+<section id="profile" class="page"><div class="profile-cover"></div><div class="profile-head"><div class="avatar profile-big">M</div><button class="edit">Edit profile</button></div><h2>Maya</h2><small>@maya.vybe</small><p>just here for the good vibes ✨<br>🍪 building things & causing chaos</p><p><b>248</b> followers &nbsp;&nbsp; <b>183</b> following</p><div class="grid"><div>🍪</div><div>✨</div><div>🌸</div><div>🎀</div><div>📸</div><div>☁️</div></div></section>
+</main><aside class="side-right"><b>Suggested for you</b><div class="suggest"><div class="avatar">J</div><div class="info"><b>jayla</b><br><small>@jayla.jpg</small></div><button class="follow" onclick="this.textContent=this.textContent==='Follow'?'Following':'Follow'">Follow</button></div><div class="suggest"><div class="avatar">A</div><div class="info"><b>aria</b><br><small>@aria.mp4</small></div><button class="follow" onclick="this.textContent=this.textContent==='Follow'?'Following':'Follow'">Follow</button></div><hr><p style="color:#888;font-size:12px">VYBE · About · Help · Privacy · Terms</p></aside></div>
 <script>
-const posts=[
- {id:1,user:"jayla",handle:"@jayla.jpg",avatar:"J",text:"fall weather is officially my personality now 🍂✨",emoji:"🍂",likes:124,liked:false,comments:18},
- {id:2,user:"aria",handle:"@aria.mp4",avatar:"A",text:"okay but why did nobody tell me this was happening 😭",emoji:"😭",likes:89,liked:false,comments:7},
- {id:3,user:"kai",handle:"@kai.wav",avatar:"K",text:"new playlist. no skips. I don't make the rules 🎧",emoji:"🎧",likes:201,liked:false,comments:31}
-];
-function renderPosts(list=posts,target="feed"){
- const el=document.getElementById(target);
- if(!list.length){el.innerHTML='<div class="card empty">No posts found 👀</div>';return}
- el.innerHTML=list.map(p=>`<article class="card post" data-id="${p.id}">
-  <div class="post-head"><div class="avatar">${p.avatar}</div><div class="user-info"><div class="username">${p.user}</div><div class="handle">${p.handle} · now</div></div><button class="more">•••</button></div>
-  <div class="post-text">${p.text}</div><div class="post-img">${p.emoji}</div>
-  <div class="actions">
-   <button class="action ${p.liked?'liked':''}" onclick="likePost(${p.id})">♥ <span>${p.likes}</span></button>
-   <button class="action" onclick="commentPost(${p.id})">💬 ${p.comments}</button>
-   <button class="action" onclick="sharePost()">↗ Share</button><button class="action" style="margin-left:auto">🔖</button>
-  </div></article>`).join("");
-}
-function showPage(page){
- document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
- document.getElementById(page).classList.add("active");
- document.querySelectorAll(".nav button[data-page]").forEach(x=>x.classList.toggle("active",x.dataset.page===page));
- if(page==="explore")renderPosts(posts,"exploreFeed");
-}
-function likePost(id){const p=posts.find(x=>x.id===id);p.liked=!p.liked;p.likes+=p.liked?1:-1;renderPosts();if(document.getElementById("explore").classList.contains("active"))renderPosts(posts,"exploreFeed")}
-function commentPost(id){const p=posts.find(x=>x.id===id);const c=prompt("Write a comment:");if(c&&c.trim()){p.comments++;alert("Comment added 💬");renderPosts();}}
-function sharePost(){navigator.clipboard?.writeText(location.href);alert("Post link copied! 🔗")}
-function toggleFollow(btn){const on=btn.textContent==="Following";btn.textContent=on?"Follow":"Following";if(!on){btn.style.background="#eeeaff";btn.style.color="var(--accent)"}else{btn.style.background="var(--text)";btn.style.color="#fff"}}
-function openComposer(){document.getElementById("modalWrap").classList.add("show");document.getElementById("postText").focus()}
-function closeComposer(){document.getElementById("modalWrap").classList.remove("show");document.getElementById("postText").value=""}
-function createPost(){const text=document.getElementById("postText").value.trim();if(!text)return;posts.unshift({id:Date.now(),user:"Maya",handle:"@maya.vybe",avatar:"M",text,emoji:"✨",likes:0,liked:false,comments:0});document.getElementById("postCount").textContent=posts.length;closeComposer();renderPosts();showPage("home")}
-function quickPost(){const text=document.getElementById("quickText").value.trim();if(!text)return;posts.unshift({id:Date.now(),user:"Maya",handle:"@maya.vybe",avatar:"M",text,emoji:"✨",likes:0,liked:false,comments:0});document.getElementById("quickText").value="";document.getElementById("postCount").textContent=posts.length;renderPosts()}
-function searchPosts(q){if(!q.trim()){renderPosts();return}showPage("explore");renderPosts(posts.filter(p=>(p.text+" "+p.user+" "+p.handle).toLowerCase().includes(q.toLowerCase())),"exploreFeed")}
-renderPosts();
-</script>
-</body>
-</html>
+let posts=[{id:1,u:'jayla',a:'J',text:'fall weather is officially my personality now 🍂✨',emoji:'🍂',likes:124,comments:18,video:false},{id:2,u:'aria',a:'A',text:'okay but this song has been stuck in my head ALL day 😭',emoji:'🎧',likes:89,comments:7,video:true},{id:3,u:'kai',a:'K',text:"new playlist. no skips. I don't make the rules.",emoji:'🎶',likes:201,comments:31,video:false}];
+function postHTML(p){return `<article class="post"><div class="posthead"><div class="avatar">${p.a}</div><div><div class="user">${p.u}</div><div class="time">original audio · 1h</div></div><button class="dots">•••</button></div><div class="media ${p.video?'video':''}">${p.emoji}${p.video?'<div class="play">▶</div>':''}</div><div class="actions"><button onclick="like(${p.id},this)">♡</button><button onclick="comment(${p.id})">💬</button><button onclick="alert('Post shared 🔗')">↗</button><button class="save">⌑</button></div><div><b>${p.likes}</b> likes</div><div class="caption"><b>${p.u}</b> ${p.text}</div><div class="comments" onclick="comment(${p.id})">View all ${p.comments} comments...</div></article>`}
+function render(list=posts,target='feed'){document.getElementById(target).innerHTML=list.map(postHTML).join('')}
+function show(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.navbtn[data-p]').forEach(x=>x.classList.toggle('active',x.dataset.p===id));if(id==='explore')render(posts,'exploreFeed');if(id==='reels')document.getElementById('reelsFeed').innerHTML=posts.map(p=>`<div class="reel"><div class="reel-bg">${p.emoji}</div><div class="reel-info"><b>@${p.u}</b><p>${p.text}</p></div><div class="reel-actions"><button onclick="like(${p.id},this)">♡<small>${p.likes}</small></button><button onclick="comment(${p.id})">💬<small>${p.comments}</small></button><button onclick="alert('Shared 🔗')">↗<small>Share</small></button><button>🔖</button></div></div>`).join('')}
+function like(id,btn){let p=posts.find(x=>x.id===id);p.likes++;btn.classList.add('liked');btn.innerText='♥';render()}
+function comment(id){let x=prompt('Add a comment:');if(x)alert('Comment posted 💬')}
+function createPost(){let x=prompt('What do you want to post?');if(x){posts.unshift({id:Date.now(),u:'Maya',a:'M',text:x,emoji:'✨',likes:0,comments:0,video:false});render();show('home')}}
+function search(q){if(q.trim()){show('explore');render(posts.filter(p=>(p.text+p.u).toLowerCase().includes(q.toLowerCase())),'exploreFeed')}else render(posts,'exploreFeed')}
+render();
+</script></body></html>
